@@ -31,7 +31,7 @@ class Agence:
 
     # Code :
     def get_Code(self):
-        return self.code
+        return self.code_ag
     
     # Ville :
     def get_Ville(self):
@@ -50,7 +50,7 @@ class Agence:
 
     # Code :
     def set_Code(self,c):
-        self.code=c
+        self.code_ag=c
     
     # Ville :
     def set_Ville(self,v):
