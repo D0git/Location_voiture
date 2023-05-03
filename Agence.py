@@ -22,7 +22,7 @@ class Agence:
     # Affichage des informations :
 
     def Affichage(self):
-        return self.Agence[]
+        return self.Agence[:]
 
     # Getters :-----------------------------------------------------------------------------------------
 
