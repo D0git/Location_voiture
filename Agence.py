@@ -4,7 +4,7 @@ class Agence:
     # Constructeur de classe agence :
     
     def __init__(self,c=None,v=None,t=None,a=None) :
-        self.code=c
+        self.code_ag=c
         self.ville=v
         self.tel=t
         self.adresse=a
