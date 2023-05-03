@@ -22,10 +22,7 @@ class Agence:
     # Affichage des informations :
 
     def Affichage(self):
-        print("Code :" ,self.code,
-               "\nVille :" ,self.ville,
-               "\nTel :" ,self.tel,
-               "\nAdresse :" ,self.adresse)
+        return self.Agence[]
 
     # Getters :-----------------------------------------------------------------------------------------
 
