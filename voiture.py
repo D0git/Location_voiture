@@ -82,6 +82,7 @@ class Voiture():
         sql="insert into Voiture (matricule,image,nbr_plc,prix_loc_j,trans,modele,marque,type_car,disponibilite) values(?,?,?,?,?,?,?,?,FALSE)"
         val=(matricule,image,nbr_plc,prix_loc_j,transmission,modele,marque,type_car)
         cursor.execute(sql,val)
+        cnx.commit()
         return True
 """"
     # Fonction d'ajout d'une voiture :
