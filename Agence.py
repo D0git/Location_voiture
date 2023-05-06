@@ -1,65 +1,37 @@
+from Voiture import *
+
+# Importer le module SQLite :
+import sqlite3
+
+# Se connecter à la base données :
+
+cnx=sqlite3.connect('Location_voiture.db')
+
+# Fermeture de la connexion à la base de données :
+#cnx.close()
+
+cursor=cnx.cursor()
+
+    # Creation d'une liste vide des agences :"""
 
 class Agence:
-
-    # Constructeur de classe agence :
     
-    def __init__(self,c=None,v=None,t=None,a=None) :
+    def __init__(self,c=None,v=None,a=None,t=None):
         self.code_ag=c
         self.ville=v
-        self.tel=t
         self.adresse=a
-
-
-    # Creation d'une liste vide des agences :
-
-    def __init__(self):
-        self.Agence=[]
-
-
-
-
-
-    # Affichage des informations :
+        self.tel=t
 
     def Affichage(self):
-        return self.Agence[:]
+        self.Agence=[]
+        cursor.execute("select * from Agence")
+        result=cursor.fetchall()
+        return result
 
-    # Getters :-----------------------------------------------------------------------------------------
-
-    # Code :
-    def get_Code(self):
-        return self.code_ag
-    
-    # Ville :
-    def get_Ville(self):
-        return self.ville
-    
-    # Tel :
-    def get_Tel(self):
-        return self.tel
-    
-    # Adresse :
-    def get_Adresse(self):
-        return self.adresse
+a=Agence()
+x=a.Affichage()
+print(x)
     
 
-    # Setters: ---------------------------------------------------------------------------------------
 
-    # Code :
-    def set_Code(self,c):
-        self.code_ag=c
-    
-    # Ville :
-    def set_Ville(self,v):
-        self.ville=v
-    
-    # Tel :
-    def set_Tel(self,t):
-        self.tel=t
-    
-    # Adresse :
-    def set_Adresse(self,a):
-        self.adresse=a
-
-    
 

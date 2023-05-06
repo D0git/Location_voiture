@@ -1,4 +1,4 @@
-
+from Agence import *
     # Importer le module SQLite :
 import sqlite3
 
@@ -10,7 +10,6 @@ cnx=sqlite3.connect('Location_voiture.db')
 
 cursor=cnx.cursor()
 
-    # Creation d'une liste vide des agences :"""
 
 
 
@@ -37,10 +36,11 @@ class Voiture():
     # Affichage de la liste des voitures :-------------------------------------------------------------------------------------
     def Afficher_v_dispo(self):
         self.Voiture=[]
-        cursor.execute("select * from Voiture")
+        cursor.execute("SELECT * FROM voiture")
         result=cursor.fetchall()
         return result
-    
+
+
 # Fonctions de recherche :
 
     # Recherche par marque :
@@ -48,7 +48,7 @@ class Voiture():
         cursor.execute("select * from Voiture group by marque")
         result=cursor.fetchall()
         return result
-  
+
     # Recherche par type de carburant :
     def Rechercher_par_tcarb(self):
         cursor.execute("select * from Voiture group by type_car")
@@ -57,7 +57,7 @@ class Voiture():
     
     # Rechercher par transmission :
     def Rechercher_par_trans(self):
-        cursor.execute("select * from Voiture group by trans")
+        cursor.execute("select * from Voiture group by transmission")
         result=cursor.fetchall()
         return result  
       
@@ -74,45 +74,69 @@ class Voiture():
         cursor.execute("select * from Voiture group by prix_loc_j")
         result=cursor.fetchall()
         return result
- 
-
-    # Fonction d'ajout d'une voiture :
-    def Ajouter(self):
-        sql="insert into Voiture (matricule,image,nbr_plc,prix_loc_j,trans,modele,marque,type_car,disponibilite) values(%s,%s,%d,%f,%s,%s,%s,%s,%s)"
-        val=(self.matricule,self.image,self.nbr_plc,self.prix_loc_j,self.transmission,self.modele,self.marque,self.type_car,self.disponibilite)
-        result=cursor.execute(sql,val)
-        return result
-
-   
-
-
-
-
-
-
-
-
-
-
-"""
     
-    # Fonction de modification d'une voiture :
-    def Modifier(self):
-        
+
+    #Fonction d'ajout d'une voiture :
+    def Ajouter(self,matricule,image,nbr_plc,prix_loc_j,transmission,modele,marque,type_car):    
+        sql="insert into Voiture(matricule,image,nbr_plc,prix_loc_j,transmission,modele,marque,type_car,disponibilite) values(?,?,?,?,?,?,?,?,FALSE)"
+        val=(matricule,image,nbr_plc,prix_loc_j,transmission,modele,marque,type_car) 
+        cursor.execute(sql,val)
+        cnx.commit()  
+        return True
+         
+    # Fonction de modification de l'image d'une voiture :
+    def Modifier_image(self,image,matricule):
+        sql="update Voiture set image=? where matricule=?"
+        val=(image,matricule)
+        cursor.execute(sql,val)
+        cnx.commit()
+        return True
     
+    # Fonction de modification du prix de location d'une voiture :
+    def Modifier_Prix(self,prix_loc_j,matricule):
+        sql="update Voiture set prix_loc_j=? where matricule=?"
+        val=(prix_loc_j,matricule)
+        cursor.execute(sql,val)
+        cnx.commit()
+        return True
+    
+    # Fonction de modification de la disponibilite d'une voiture :
+    def Modifier_Dispo(self,disponibilite,matricule):
+        sql="update Voiture set disponibilite=? where matricule=?"
+        val=(disponibilite,matricule)
+        cursor.execute(sql,val)
+        cnx.commit()
+        return True
+
+  
  # Fonction de suppression d'une voiture :
-    def Supprimer(self):
-        """
+    def Supprimer(self,matricule):
+        sql="delete from Voiture where matricule=?"
+        val=(matricule,)
+        cursor.execute(sql,val)
+        cnx.commit()
+        return True
     
-
-
-
+# Fonction teste sur l'existance du matricule dans la base de donnees :
+    def Test_matricule(self,matricule):
+        sql="select matricule from Voiture where matricule =? "
+        val=(matricule,)
+        cursor.execute(sql,val)
+        result=cursor.fetchone()
+        if result is None:
+            return False
+        else:
+            return True
+        
+#---------------------MAIN----------------------------------------------
 v=Voiture()
+print("")
 print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
 print("")
 y=v.Afficher_v_dispo()
 print(y)
 print("")
+"""
 print("---Recherche_par_marque-----------------------------------------------------------------------------------------")
 print("")
 mrq=v.Rechercher_par_marque()
@@ -141,10 +165,66 @@ print(nbr)
 
 print("")
 print("---Ajouter voiture-----------------------------------------------")
-ajout=v.Ajouter()
-print(ajout)
-"""
 print("")
-print("---Modifier voiture-----------------------------------------------")
-supp=v.Supprimer()
-print(supp)"""
+print("---Saisie des info :--------------------------------------------")
+print("")
+matricule=input("matricule: ")
+image=input("image: ")
+nbr_plc=int(input("nbr_plc: "))
+prix_loc_j=float(input("prix_loc_j: "))
+transmission=input("transmission: ")
+modele=input("modele: ")
+marque=input("marque: ")
+type_car=input("type_car: ")
+disponibilite=False
+
+ajout=v.Ajouter(matricule,image,nbr_plc,prix_loc_j,transmission,modele,marque,type_car)
+print(ajout)
+
+print("")
+print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
+print("")
+y=v.Afficher_v_dispo()
+print(y)
+
+print("")
+print("---Modifier voiture---------------------------------------------------------------------------------------------")
+print("---MODIFICATION IMAGE :-----------")
+print("")
+image=input("image :")
+matricule=input("matricule :")
+modif_i=v.Modifier_image(image,matricule)
+print(modif_i)
+
+print("---MODIFICATION PRIX :-----------")
+print("")
+prix=float(input("prix_loc_j :"))
+matricule=input("matricule :")
+modif_p=v.Modifier_Prix(prix,matricule)
+print(modif_p)
+
+print("---MODIFICATION DISPONIBILITE :-----------")
+print("")
+
+dispo=input("disponibilite :")
+matricule=input("matricule :")
+modif_d=v.Modifier_Dispo(dispo,matricule)
+print(modif_d)
+
+print("")
+print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
+print("")
+y=v.Afficher_v_dispo()
+print(y)
+print("")
+print("---Suppression :-----------------------------------------------------------------")
+matricule=input("matricule:")
+supp=v.Supprimer(matricule)
+print(supp)
+print("")
+print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
+print("")
+y=v.Afficher_v_dispo()
+print(y)
+print("")
+"""
