@@ -3,7 +3,7 @@
 import sqlite3
 
     # Se connecter à la base données :
-cnx=sqlite3.connect('Location_voiture1.db')
+cnx=sqlite3.connect('Location_voiture.db')
 
     # Fermeture de la connexion à la base de données :
 #cnx.close()
