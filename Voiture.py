@@ -76,9 +76,9 @@ class Voiture():
         return result     
         
     # Rechercher par prix de location par jours :
-    def Rechercher_par_prix_loc_jrs(self,prix_loc_j):
-        sql="select * from Voiture where prix_loc_j=?"
-        val=(prix_loc_j,)
+    def Rechercher_par_prix_loc_jrs(self,p_min,p_max):
+        sql="select * from Voiture where prix_loc_j between ? and ?"
+        val=(p_min,p_max)
         cursor.execute(sql,val)
         result=cursor.fetchall()
         return result
