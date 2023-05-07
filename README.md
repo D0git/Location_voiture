@@ -1,6 +1,6 @@
                                                  Projet de Fin d’année 
                                           
-                          Réalisation d’une application descktop pour la gestion de la location des voitures
+                          Réalisation d’une application desktop pour la gestion de la location des voitures
                           
                      
           Réalisé par :                                                                  Encadré par :
