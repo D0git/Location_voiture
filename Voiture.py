@@ -36,7 +36,7 @@ class Voiture():
     # Affichage de la liste des voitures :-------------------------------------------------------------------------------------
     def Afficher_v_dispo(self):
         self.Voiture=[]
-        cursor.execute("SELECT * FROM voiture")
+        cursor.execute("SELECT * FROM Voiture")
         result=cursor.fetchall()
         return result
 
