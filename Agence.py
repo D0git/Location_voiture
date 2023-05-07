@@ -22,8 +22,7 @@ class Agence:
         self.adresse=a
         self.tel=t
 
-    def Affichage(self):
-        self.Agence=[]
+    def Affichage():
         cursor.execute("select * from Agence")
         result=cursor.fetchall()
         return result
