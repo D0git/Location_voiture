@@ -48,7 +48,7 @@ d’une application descktop destinée à gérer la location des voitures. Autre
           
                                                   Conclusion General :
        
-        Cette expérience, nous a convaincu de l’importance de la modélisation dans le processus de réalisation des projets informatiques. En plus, ce projet nous a donné l’occasion d’appliquer et d’améliorer nos connaissances théoriques dans le langage UML et notamment dans la modélisation des applications web. 
+        Cette expérience, nous a convaincu de l’importance de la modélisation dans le processus de réalisation des projets informatiques. En plus, ce projet nous a donné l’occasion d’appliquer et d’améliorer nos connaissances théoriques dans le langage UML et notamment dans la modélisation des applications descktop. 
 Notre application assure la gestion des voitures, réservations, des clients afin de garantir le bon fonctionnement au sein de l'agence. Autrement dit ce travail peut être considéré comme une première étape pour une gestion complète d'application. 
 Finalement, ce projet a été très enrichissant que ça soit au point de vue technique que humain.
    Néanmoins, Nous aimerons bien que ce travail sera apprécié par les responsables et en suite connait son achèvement .
