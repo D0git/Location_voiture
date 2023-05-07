@@ -66,7 +66,7 @@ class Client:
 
 
     # Fonction connexion :
-    def Connexion(self,login,password):
+    def Connexion(login,password):
         sql="select id_cl from Client where login=? and password=?"
         val=(login,password)
         cursor.execute(sql,val)
@@ -81,7 +81,7 @@ class Client:
 
 
     # Fonction d'inscription:
-    def Inscription(self,nom,prenom,tel,email,login,password):
+    def Inscription(nom,prenom,tel,email,login,password):
         sql="insert into Client(nom,prenom,tel,email,login,password) values(?,?,?,?,?,?)"
         val=(nom,prenom,tel,email,login,password)
         cursor.execute(sql,val)
@@ -91,7 +91,7 @@ class Client:
 
     # juste pour un test:
 
-    def supp(self,id_cl):
+    def supp(id_cl):
         sql="delete from Client where id_cl=?"
         val=(id_cl,)
         cursor.execute(sql,val)
