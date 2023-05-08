@@ -1,0 +1,1225 @@
+#:import partial functools.partial
+
+<Dialogue>
+    id:dg
+    orientation: "vertical"
+    spacing: "5dp"
+    size_hint_y: None
+    height: "50dp"
+    MDTextField:
+        id:field
+        hint_text: "Matricule"
+        on_text_validate:
+            app.mtrcl_test=self.text
+            root.clear(self)
+            app.go_to_sreen()
+            
+            
+<DialogueERRExist>
+    
+    orientation: "vertical"
+    spacing: "5dp"
+    size_hint_y: None
+    height: "50dp"
+    MDLabel:
+        text: "Cette matricule existe déjà!!!"      
+<DialogueERRnotExist>
+    
+    orientation: "vertical"
+    spacing: "5dp"
+    size_hint_y: None
+    height: "50dp"
+    MDLabel:
+        text: "Cette voiture n'existe pas!!!"        
+                
+<DialogueDelete>
+    
+    orientation: "vertical"
+    spacing: "5dp"
+    size_hint_y: None
+    height: "50dp"
+    MDLabel:
+        text: "Vous êtes sûre ?!"  
+<AdmineClient>
+    
+    orientation: "vertical"
+    spacing: "5dp"
+    size_hint_y: None
+    height: "50dp"
+    MDLabel:
+        text: "Voulez-vous acceder comme administrateur ou client ?"     
+<ClickableTextFieldRound>:
+    #
+    
+    MDTextField:
+        id: text_field
+        hint_text: root.hint_text
+        text: root.text
+        password: True
+        icon_left: "key-variant"
+        mode: "rectangle"
+        helper_text: "no space,(0-9a-zA-Z)at least one special (@$!%*#?&),lenght(8 to 15) "
+        
+    MDIconButton:
+        icon: "eye-off"
+        
+        pos: text_field.width - self.width + dp(8), 0
+        theme_text_color: "Hint"
+        on_release:
+            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+            text_field.password = False if text_field.password is True else True
+<ClickableTextFieldRound2>:
+    #
+    
+    MDTextField:
+        id: text_field
+        hint_text: root.hint_text
+        text: root.text
+        password: True
+        icon_left: "key-variant"
+        mode: "rectangle"
+        helper_text: "no space,(0-9a-zA-Z)at least one special character,lenght(8 to 15) "
+        
+    MDIconButton:
+        icon: "eye-off"
+        
+        pos: text_field.width - self.width + dp(8), 0
+        theme_text_color: "Hint"
+        on_release:
+            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+            text_field.password = False if text_field.password is True else True
+
+<Spacer@Widget>
+    size_hint_y:None
+    height: "12dp"
+MDScreen:
+
+    MDNavigationLayout:
+
+        ScreenManager:
+            id: manager
+            ###########################   FIRST  ###################################""""
+            MDScreen:
+                name:'first'
+                FitImage:
+                    source:"2.png"
+                MDRectangleFlatButton:
+                    background_color: 0, 0, 0, 0
+                    text_color: "white"
+                    line_color: "#00D1FF"
+                    pos_hint: {"center_x": .5, "center_y": .23}
+                    size_hint:(.99,.18)
+                    on_press:manager.current = "login"
+                    canvas.before:
+                        Color:
+                            rgba: 0, 209, 255, .3
+                        Line:
+                            
+                            width: 3
+                            rectangle: self.x, self.y, self.width, self.height
+            ###########################   LOGIN  ##########################################
+            
+            MDScreen:
+                name: 'login'
+                
+                MDTopAppBar:
+                    
+                    elevation: 4
+                    shadow_offset: 0, -6
+                    shadow_softness: 4
+                    shadow_color: "#1A237E"
+                    pos_hint: {"top": .96}
+                    md_bg_color: "#1A237E"
+                    type: "bottom"
+                MDCard:
+                    size_hint: .97, .4
+                    pos_hint: {"center_x": .5, "center_y": .4}
+                    md_bg_color:"#121212"
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        MDLabel:
+                            text: "Welcome To VIPCars"
+                            adaptive_height: True
+                            
+                            font_style:"H2"
+                            halign:"center"
+                            color:"#FFFFFF"
+                        Spacer: 
+                        Spacer:
+                        Spacer:
+                        Spacer:   
+                        MDLabel:
+                            text: "login"
+                            adaptive_height: True
+                            font_style:"H4"
+                            
+                        MDTextField:
+                            id: login_user
+                            adaptive_height: True
+                            hint_text: "Enter your Login"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        ClickableTextFieldRound:
+                            id:passwrd
+                            adaptive_height: True
+                            size_hint_x: None
+                            width: "583dp"
+                            hint_text: "Password"
+
+                        Spacer:
+                        Spacer:
+                        Spacer:
+                        MDFillRoundFlatButton:
+                            text: "Sign In"
+                            pos_hint:{"center_x":.92}
+                            md_bg_color:"#3D5AFE"
+                            font_size: "18sp"
+                            on_press:app.log_in()
+
+                        Spacer:
+                        MDFillRoundFlatButton:
+                            text: "New Client"
+                            pos_hint:{"center_x":.9}
+                            md_bg_color:"#e1ad13"
+                            font_size: "18sp"
+                            on_press:app.log_in_to_sign()
+                MDTopAppBar:
+                    
+                    elevation: 4
+                    shadow_offset: 0, -6
+                    shadow_softness: 4
+                    shadow_color: "#1A237E"
+                    pos_hint: {"top": .068}
+                    md_bg_color: "#1A237E"
+                    type: "bottom"
+
+
+            ###########################  SIGN UP  ##########################################
+            MDScreen:
+                name: 'signup'
+                
+                MDTopAppBar:
+                    
+                    elevation: 4
+                    shadow_offset: 0, -6
+                    shadow_softness: 4
+                    shadow_color: "#1A237E"
+                    pos_hint: {"top": .99}
+                    md_bg_color: "#1A237E"
+                    type: "bottom"
+                MDCard:
+                    size_hint: .97, .4
+                    pos_hint: {"center_x": .5, "center_y": .3}
+                    md_bg_color:"#121212"
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                          
+                        MDLabel:
+                            text: "Sign UP"
+                            adaptive_height: True
+                            font_style:"H3"
+                            halign: "center"
+                        MDTextField:
+                            id: fn
+                            adaptive_height: True
+                            hint_text: "First Name"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id: ln
+                            adaptive_height: True
+                            hint_text: "Last Name"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:    
+                        MDTextField:
+                            id: email
+                            adaptive_height: True
+                            hint_text: "Email"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                            validator: "email"
+                        Spacer:
+                        MDTextField:
+                            id: phone
+                            adaptive_height: True
+                            hint_text: "Phone Number"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id: log
+                            adaptive_height: True
+                            hint_text: "Enter your Login"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        
+                        ClickableTextFieldRound:
+                            id:first_pswrd
+                            adaptive_height: True
+                            size_hint_x: None
+                            width: "583dp"
+                            hint_text: "Password"
+                    
+                        ClickableTextFieldRound2:
+                            id:confirm_pswrd
+                            adaptive_height: True
+                            size_hint_x: None
+                            width: "583dp"
+                            hint_text: "Confirm Password"
+
+                        Spacer:
+                        Spacer:
+                        Spacer:
+                        MDFillRoundFlatButton:
+                            text: "Sign UP"
+                            pos_hint:{"center_x":.92}
+                            md_bg_color:"#3D5AFE"
+                            font_size: "18sp"
+                            on_press:app.sign_up()
+                                
+                        
+                MDTopAppBar:
+                    
+                    elevation: 4
+                    shadow_offset: 0, -6
+                    shadow_softness: 4
+                    shadow_color: "#1A237E"
+                    pos_hint: {"top": .035}
+                    md_bg_color: "#1A237E"
+                    type: "bottom"
+#####################################   ADMINISTRATEUR   ###############################################################
+            ###########################  ADMIN   ####################################
+            MDScreen:
+                name: 'admin'
+                FitImage:
+                    source:"3.png"
+                MDCard:
+                    
+                    elevation:2
+                    shadow_offset: 0, -1
+                    shadow_softness: 4
+                    shadow_color: "#69e4ff"
+                    size_hint: .97, .2
+                    pos_hint: {"center_x": .5, "center_y": .75}
+                    md_bg_color:"#121212"
+                    on_release: 
+                        app.show_confirmation_dialog()
+                        app.test=1
+                    #on_release: manager.current = 'add'
+                    MDBoxLayout:
+                        manager:manager
+                        orientation: 'vertical'
+                        MDLabel:
+                            manager:manager
+                            text: "Add Car"
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            font_style:"H2"
+                            halign:"center"
+                            color:"#FFFFFF"
+                    
+                MDCard:
+                    elevation:2
+                    shadow_offset: 0, -1
+                    shadow_softness: 4
+                    shadow_color: "#69e4ff"
+                    size_hint: .97, .2
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    md_bg_color:"#121212"
+                    on_release: 
+                        app.show_confirmation_dialog()
+                        app.test=2
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        MDLabel:
+                            text: "Modify Car"
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            font_style:"H2"
+                            halign:"center"
+                            color:"#FFFFFF"
+                MDCard:
+                    elevation:2
+                    shadow_offset: 0, -1
+                    shadow_softness: 4
+                    shadow_color: "#69e4ff"
+                    size_hint: .97, .2
+                    pos_hint: {"center_x": .5, "center_y": .25}
+                    md_bg_color:"#121212"
+                    on_release: 
+                        app.show_confirmation_dialog()
+                        app.test=3
+                        
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                        MDLabel:
+                            text: "Delete Car"
+                            pos_hint: {"center_x": .5, "center_y": .5}
+                            font_style:"H2"
+                            halign:"center"
+                            color:"#FFFFFF"
+                MDIconButton:
+                    icon: 'logout'           
+                    on_press:manager.current = "first"
+                    pos_hint: {"top": 1}
+                    icon_size: dp(45)
+                
+            ############################  ADD CAR  ##############################################
+            MDScreen:
+                name: 'add'
+                
+                MDTopAppBar:
+                    
+                    elevation: 4
+                    shadow_offset: 0, -6
+                    shadow_softness: 4
+                    shadow_color: "#1A237E"
+                    pos_hint: {"top": .99}
+                    md_bg_color: "#1A237E"
+                    type: "bottom"
+                MDCard:
+                    size_hint: .97, .4
+                    pos_hint: {"center_x": .5, "center_y": .27}
+                    md_bg_color:"#121212"
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                          
+                        MDLabel:
+                            text: "Add Car"
+                            adaptive_height: True
+                            font_style:"H3"
+                            halign: "center"
+                        MDTextField:
+                            id:add_matricule
+                            adaptive_height: True
+                            hint_text: "Matricule"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        MDRelativeLayout:
+                            adaptive_height: True
+                            size_hint_x: None
+                            width: "583dp"
+                            hint_text: "image"
+                            MDTextField:
+                                id:img_add
+                                hint_text: "image"
+                                helper_text: "*important"
+                                mode: "rectangle"
+                                disabled:True
+                            MDIconButton:
+                                icon: "file"
+                                pos: img_add.width - self.width + dp(8), 0
+                                theme_text_color: "Hint"
+                                on_release:
+                                    app.add_modif=0
+                                    app.open_file()
+                                    
+                        Spacer:    
+                        MDTextField:
+                            id:add_marque
+                            adaptive_height: True
+                            hint_text: "Marque"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id:add_modele
+                            adaptive_height: True
+                            hint_text: "Modele"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id:add_trans
+                            adaptive_height: True
+                            hint_text: "Transmission"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id:add_carb
+                            adaptive_height: True
+                            hint_text: "Type de carburant"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id:add_place
+                            adaptive_height: True
+                            hint_text: "nombre de places"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id:add_prix
+                            adaptive_height: True
+                            hint_text: "Prix location par jour"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                        MDTextField:
+                            id:add_agence
+                            adaptive_height: True
+                            hint_text: "Code Agence"
+                            helper_text: "*important"
+                            mode: "rectangle"
+                        Spacer:
+                MDFillRoundFlatButton:
+                    text: "Confirm"
+                    pos_hint:{"center_x":.92,"center_y":.05}
+                    md_bg_color:"#3D5AFE"
+                    font_size: "18sp"
+                    on_press:app.add_car()
+                MDFillRoundFlatButton:
+                    text: "Cancel"
+                    pos_hint:{"center_x":.75,"center_y":.05}
+                    md_bg_color:"#3D5AFE"
+                    font_size: "18sp"
+                    on_press:manager.current = "admin"
+                            
+                        
+                
+            ############################  MODIFY CAR  #####################################
+            MDScreen:
+                name: 'modify'
+                
+                MDTopAppBar:
+                    
+                    elevation: 4
+                    shadow_offset: 0, -6
+                    shadow_softness: 4
+                    shadow_color: "#1A237E"
+                    pos_hint: {"top": .99}
+                    md_bg_color: "#1A237E"
+                    type: "bottom"
+                MDCard:
+                    size_hint: .97, .4
+                    pos_hint: {"center_x": .5, "center_y": .5}
+                    md_bg_color:"#121212"
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                          
+                        MDLabel:
+                            text: "Modify Car"
+                            adaptive_height: True
+                            font_style:"H3"
+                            halign: "center"
+                        MDRelativeLayout:
+                            adaptive_height: True
+                            size_hint_x: None
+                            width: "583dp"
+                            hint_text: "image"
+                            MDTextField:
+                                id:img_modif
+                                hint_text: "image"
+                                mode: "rectangle"
+                                disabled:True
+                            MDIconButton:
+                                icon: "file"
+                                pos: img_modif.width - self.width + dp(8), 0
+                                theme_text_color: "Hint"
+                                on_release:
+                                    app.add_modif=1
+                                    app.open_file()
+                                    
+                        Spacer:
+                        MDTextField:
+                            id:modif_prix
+                            adaptive_height: True
+                            hint_text: "Prix de location par voiture"
+                            mode: "rectangle"
+                        Spacer:    
+                        MDTextField:
+                            id:modif_dispo
+                            adaptive_height: True
+                            hint_text: "Disponibilité"
+                            helper_text: "*( TRUE / FALSE )"
+                            mode: "rectangle"
+                        Spacer:
+                        Spacer:
+                        Spacer:
+                MDFillRoundFlatButton:
+                    text: "Confirm"
+                    pos_hint:{"center_x":.90,"center_y":.2}
+                    md_bg_color:"#3D5AFE"
+                    font_size: "18sp"
+                    on_press:app.modif_car()
+                MDFillRoundFlatButton:
+                    text: "Cancel"
+                    pos_hint:{"center_x":.73,"center_y":.2}
+                    md_bg_color:"#3D5AFE"
+                    font_size: "18sp"
+                    on_press:manager.current = "admin"
+                MDTopAppBar:
+                    
+                    elevation: 4
+                    shadow_offset: 0, -6
+                    shadow_softness: 4
+                    shadow_color: "#1A237E"
+                    pos_hint: {"top": .035}
+                    md_bg_color: "#1A237E"
+                    type: "bottom"
+            #############################  DELETE CAR #################################
+            
+##########################################   CLIENT   ################################################################
+            ###############################  MENU  #################################
+            MDScreen:
+                name: 'menu'
+                MDNavigationLayout:
+
+                    MDScreenManager:
+                        
+                        MDScreen:
+                            
+                            MDBoxLayout:
+                                orientation: 'vertical'
+                                
+                                MDTopAppBar:
+                                    
+                                    
+                                    elevation: 6
+                                    shadow_offset: 0, -6
+                                    shadow_softness: 4
+                                    shadow_color: "#1A237E"
+                                    pos_hint: {"top": 1}
+                                    #md_bg_color: "#e1ad13"
+                                    specific_text_color: "#FFFFFF"
+                                    type: "bottom"
+                                    
+                                    left_action_items:
+                                        [['menu', lambda x: nav_drawer.set_state("open")]]
+                                ScrollView:
+                                    
+                                    MDList:
+                                        manager:manager
+                                        id: carditems 
+                                        CardItem:
+                                            
+                                            
+
+                          
+                    MDNavigationDrawer:
+                        id: nav_drawer
+                        radius: (0, 16, 16, 0)
+                        MDBoxLayout:
+                            
+                            orientation: 'vertical'
+                            
+                            Image:
+                                source:"logo2.png"
+                                                           
+                            
+                            MDList:
+                                
+                                OneLineIconListItem:
+                                    text: 'cars'
+                                    
+                                    on_press:
+                                        nav_drawer.set_state("close")
+                                        manager.current = "cars"
+                                    IconLeftWidget:
+                                        icon: 'car' 
+                                        
+                                OneLineIconListItem:
+                                    text: 'Agences'
+                                    
+                                    on_press:
+                                        nav_drawer.set_state("close")
+                                        manager.current = "agences"
+                                    IconLeftWidget:
+                                        icon: 'home-group'
+                                OneLineIconListItem:
+                                    text: 'About'
+                                    
+                                    on_press:
+                                        nav_drawer.set_state("close")
+                                        manager.current = "about"
+                                    IconLeftWidget:
+                                        icon: 'information'
+                                OneLineIconListItem:
+                                    text: 'Contactez nous!'
+                                    
+                                    on_press:
+                                        nav_drawer.set_state("close")
+                                        manager.current = "contact"
+                                    IconLeftWidget:
+                                        icon: 'phone'
+                                OneLineIconListItem:
+                                    text: 'Logout'
+                                    
+                                    on_press:
+                                        nav_drawer.set_state("close")
+                                        manager.current = "first"
+                                    IconLeftWidget:
+                                        icon: 'logout' 
+                            ScrollView:  
+                                           
+                
+                    
+
+
+            ###############################  INFO CAR  ######################################
+            MDScreen:
+                name:'info_car'
+                
+                MDSliverAppbar:
+                    manager:manager
+                    background_color: "#1A237E"
+                    MDSliverAppbarHeader:
+                        
+                        MDRelativeLayout:
+
+                            FitImage:
+                                id:car_select0
+                                #source: app.selected_car[1]
+                                width: 50
+                        
+
+                    MDSliverAppbarContent:
+                        id: content
+                        
+                        orientation: "vertical"
+                        padding: "12dp"
+                        spacing: "12dp"
+                        adaptive_height: True
+                        InfoCar:
+                            size_hint_y: None
+                            height: "86dp"
+                            padding: "4dp"
+                            radius: 12
+
+                            FitImage:
+                                id:car_select1
+                                radius: 12
+                                size_hint_x: None
+                                width: "86dp"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                spacing: "6dp"
+                                padding: "12dp", 0, 0, 0
+                                pos_hint: {"center_y": .5}
+
+                                MDLabel:
+                                    id:maq
+                                    font_style: "H5"
+                                    bold: True
+                                    adaptive_height: True
+
+                                MDLabel:
+                                    text: "Marque"
+                                    theme_text_color: "Hint"
+                                    adaptive_height: True   
+                        InfoCar:
+                            size_hint_y: None
+                            height: "86dp"
+                            padding: "4dp"
+                            radius: 12
+
+                            FitImage:
+                                id:car_select2
+                                radius: 12
+                                size_hint_x: None
+                                width: "86dp"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                spacing: "6dp"
+                                padding: "12dp", 0, 0, 0
+                                pos_hint: {"center_y": .5}
+
+                                MDLabel:
+                                    id:mod
+                                    font_style: "H5"
+                                    bold: True
+                                    adaptive_height: True
+
+                                MDLabel:
+                                    text: "Modèle"
+                                    theme_text_color: "Hint"
+                                    adaptive_height: True 
+                        InfoCar:
+                            size_hint_y: None
+                            height: "86dp"
+                            padding: "4dp"
+                            radius: 12
+
+                            FitImage:
+                                id:car_select3
+                                radius: 12
+                                size_hint_x: None
+                                width: "86dp"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                spacing: "6dp"
+                                padding: "12dp", 0, 0, 0
+                                pos_hint: {"center_y": .5}
+
+                                MDLabel:
+                                    id:px
+                                    font_style: "H5"
+                                    bold: True
+                                    adaptive_height: True
+
+                                MDLabel:
+                                    text: "Prix de location par jour"
+                                    theme_text_color: "Hint"
+                                    adaptive_height: True 
+                        InfoCar:
+                            size_hint_y: None
+                            height: "86dp"
+                            padding: "4dp"
+                            radius: 12
+
+                            FitImage:
+                                id:car_select4
+                                radius: 12
+                                size_hint_x: None
+                                width: "86dp"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                spacing: "6dp"
+                                padding: "12dp", 0, 0, 0
+                                pos_hint: {"center_y": .5}
+
+                                MDLabel:
+                                    id:carb
+                                    font_style: "H5"
+                                    bold: True
+                                    adaptive_height: True
+
+                                MDLabel:
+                                    text: "Carburant"
+                                    theme_text_color: "Hint"
+                                    adaptive_height: True 
+                        InfoCar:
+                            size_hint_y: None
+                            height: "86dp"
+                            padding: "4dp"
+                            radius: 12
+
+                            FitImage:
+                                id:car_select5
+                                radius: 12
+                                size_hint_x: None
+                                width: "86dp"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                spacing: "6dp"
+                                padding: "12dp", 0, 0, 0
+                                pos_hint: {"center_y": .5}
+
+                                MDLabel:
+                                    id:trans
+                                    font_style: "H5"
+                                    bold: True
+                                    adaptive_height: True
+
+                                MDLabel:
+                                    text: "Transmission"
+                                    theme_text_color: "Hint"
+                                    adaptive_height: True 
+                        InfoCar:
+                            size_hint_y: None
+                            height: "86dp"
+                            padding: "4dp"
+                            radius: 12
+
+                            FitImage:
+                                id:car_select6
+                                radius: 12
+                                size_hint_x: None
+                                width: "86dp"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                spacing: "6dp"
+                                padding: "12dp", 0, 0, 0
+                                pos_hint: {"center_y": .5}
+
+                                MDLabel:
+                                    id:place
+                                    font_style: "H5"
+                                    bold: True
+                                    adaptive_height: True
+
+                                MDLabel:
+                                    text: "Nombre de place"
+                                    theme_text_color: "Hint"
+                                    adaptive_height: True 
+                                                          
+                MDIconButton:
+                    icon: 'arrow-left-circle'           
+                    on_press:app.go_back()
+                    pos_hint: {"top": 1}
+                    icon_size: dp(45)
+                MDIconButton:
+                    icon: 'store-plus'           
+                    on_press:app.go_to_res()
+                    pos_hint: {"right": 1,"top":1}
+                    icon_size: dp(45)
+                    
+                
+                       
+                            
+
+
+            ###################################  RECHERCHE CAR #######################################
+            MDScreen:
+                name: 'cars'
+                MDBoxLayout:
+                    orientation: "vertical"
+
+                    MDTopAppBar:
+                        elevation: 4
+                        shadow_offset: 0, -6
+                        shadow_softness: 4
+                        shadow_color: "#1A237E"
+                        pos_hint: {"top": 1}
+                        specific_text_color: "#FFFFFF"
+                        type: "bottom"
+                    ScrollView:    
+                        MDList:
+                            manager:manager
+                            id: filter_cars 
+                            #CardItem2:
+                                #id:all_cars
+                MDIconButton:
+                    adaptive_height:True
+                    pos_hint: {"center_x": 0.03, "center_y": 0.965}
+                    icon: "arrow-left-circle"
+                    icon_size: dp(35)
+                    on_release: manager.current = 'menu'
+                MDRaisedButton:
+                    id: Marque
+                    text: "Marque"
+                    font_size:16
+                    bold:True
+                    pos_hint: {"center_x": .15, "center_y": .965}
+                    on_release:
+                        app.fltr=1 
+                        app.callback(self)
+                MDRaisedButton:
+                    id: Carburant
+                    font_size:16
+                    text: "Carburant"
+                    pos_hint: {"center_x": .293, "center_y": .965}
+                    on_release:
+                        app.fltr=2
+                        app.callback2(self)
+                MDRaisedButton:
+                    id: Transmission
+                    font_size:16
+                    text: "Transmission"
+                    pos_hint: {"center_x": .465, "center_y": .965}
+                    on_release:
+                        app.fltr=3
+                        app.callback3(self)
+                MDRaisedButton:
+                    id: Places
+                    font_size:16
+                    text: "Places"
+                    pos_hint: {"center_x": .625, "center_y": .965}
+                    on_release:
+                        app.fltr=4 
+                        app.callback4(self)
+                MDRaisedButton:
+                    id: Ville
+                    font_size:16
+                    text: "Prix"
+                    pos_hint: {"center_x": .75, "center_y": .965}
+                    on_release:
+                        app.fltr=5 
+                        app.callback5(self) 
+                
+            ####################################  AGENCE  ####################""
+            MDScreen:
+                name: 'agences'
+                
+                MDBoxLayout:
+                    orientation: "vertical"
+
+                    MDTopAppBar:
+                        elevation: 4
+                        shadow_offset: 0, -6
+                        shadow_softness: 4
+                        shadow_color: "#1A237E"
+                        pos_hint: {"top": 1}
+                        specific_text_color: "#FFFFFF"
+                        type: "bottom"
+                    ScrollView:
+                        divider: 'None'
+                        MDGridLayout:
+                            cols: 1
+                            adaptive_height: True
+                            id: box
+                MDIconButton:
+                    pos_hint: {"center_x": 0.05, "center_y": 0.965}
+                    icon: "arrow-left-circle"
+                    icon_size: dp(35)
+                    
+                    on_release: manager.current = 'menu'
+
+            ####################################  ABOUT  #########################""
+            MDScreen:
+                name: 'about'
+                FitImage:
+                    source:"3.png"
+                    
+                MDBoxLayout:
+                    orientation: "vertical"
+
+                    MDTopAppBar:
+                        elevation: 4
+                        shadow_offset: 0, -6
+                        shadow_softness: 4
+                        shadow_color: "#1A237E"
+                        pos_hint: {"top": 1}
+                        specific_text_color: "#FFFFFF"
+                        type: "bottom"
+                    ScrollView:
+                        
+                        MDBoxLayout:
+                            
+                            orientation: 'vertical'
+                            MDLabel:
+                                
+                                text:"Vous désirez louer une voiture au Maroc au meilleur prix tout compris ?"                           
+                                font_size: "43"
+                                color:"#69e4ff"
+                                bold:True
+                            Spacer:
+                             
+                            
+                             
+                            MDLabel:
+                                text:"Chez << VIPCars >> nous mettons à votre disposition notre expérience pour vous offrir une qualité de service exceptionnelle afin que vos déplacements se passent sereinement et en toute sécurité. AIRCAR a plus de 20 ans d'expérience, avec un parc des plus importants du pays avec 14 agences dans les principales villes du royaume ainsi que dans les aéroports (Casablanca – Rabat – Fès – Marrakech – Tanger – Nador – Oujda – Essaouira – Agadir – Ouarzazate)."                           
+                                font_size: "24"
+                                family_name:"Arial"
+                                
+                            Spacer:    
+                            Spacer:
+                            Spacer:
+                            Spacer:
+                            MDLabel:
+                                text:"Pourquoi choisir AIRCAR?"                           
+                                font_size: "43"
+                                adaptive_height:True
+                                color:"#69e4ff"
+                                bold:True
+                            MDLabel:
+                                text:">> Réservation en ligne 24H/24 7J/7\n>> + de 14 agences à votre service\n>> Des véhicules de lux adaptés à vos besoins\n>> Transparence et garantie des meilleurs prix"                           
+                                font_size: "23"
+                                
+                            
+                            
+
+                MDIconButton:
+                    pos_hint: {"center_x": 0.05, "center_y": 0.965}
+                    icon: "arrow-left-circle"
+                    icon_size: dp(35)
+                    on_release: manager.current = 'menu'
+            ###################################  CONTACT  ###############################""
+            MDScreen:
+                name: 'contact'
+                MDBoxLayout:
+                    orientation: "vertical"
+
+                    MDTopAppBar:
+                        elevation: 4
+                        shadow_offset: 0, -6
+                        shadow_softness: 4
+                        shadow_color: "#1A237E"
+                        pos_hint: {"top": 1}
+                        specific_text_color: "#FFFFFF"
+                        type: "bottom"
+                    Widget:
+                MDIconButton:
+                    pos_hint: {"center_x": 0.05, "center_y": 0.965}
+                    icon: "arrow-left-circle"
+                    icon_size: dp(35)
+                    on_release: manager.current = 'menu'
+                MDCard:
+                    size_hint: .97, .4
+                    pos_hint: {"center_x": .5, "center_y": .3}
+                    md_bg_color:"#121212"
+                    
+                    MDBoxLayout:
+                        orientation: 'vertical'
+                         
+                        MDLabel:
+                            text: "Need Any Hepl ?! "
+                            adaptive_height: True
+                            font_style:"H3"
+                            halign:"center"
+                        Spacer:    
+                        MDTextField:
+                            id: contactez_nous
+                            adaptive_height: True
+                            hint_text: "Enter your Quetion"
+                            mode: "rectangle"
+                            multiline: True
+                        Spacer:
+                        MDFillRoundFlatButton:
+                            text: "Send"
+                            pos_hint:{"center_x":.92}
+                            md_bg_color:"#3D5AFE"
+                            font_size: "18sp"
+                            on_press:app.contacter()
+                                
+            ###################################  RESERVATION  ###############################""
+            MDScreen:
+                name: 'reservation'
+                id:res
+                
+                Image:
+                    id: img_res
+                    size_hint_y: None
+                    source: "vip_cars\car1.png"
+                    size_hint_x: None
+                    width: 300
+                    height: 200
+                    pos_hint:{"top":.96}
+                MDLabel:
+                    id: res_mod_marq
+                    size_hint_y: None
+                    #text:"Mercedes Benz Gle\n350 Weight"
+                    bold: True
+                    font_size: "35"
+                    color: "#69e4ff"
+                    pos: img_res.width + dp(10),0
+                    pos_hint:{"top":.92}
+                    #halign:"center"
+                MDRaisedButton:
+                    text: "choisir la duree de reservation"
+                    font_size:"22"
+                    pos_hint: {'center_x': .5, 'center_y': .65}
+                    on_release: app.show_date_picker()
+                MDTextField:
+                    id: date_debut
+                    pos_hint: {"top": .55}
+                    hint_text: "date de debut"
+                    mode: "rectangle"
+                    disabled:True
+                    text_color_normal: "#69e4ff"
+                MDTextField:
+                    id: date_fin
+                    pos_hint: {"top": .45}
+                    hint_text: "date de fin"
+                    mode: "rectangle"
+                    disabled:True
+                    text_color_normal: "#69e4ff"
+                MDTextField:
+                    id: duree
+                    pos_hint: {"top": .35}
+                    hint_text: "duree"
+                    mode: "rectangle"
+                    disabled:True
+                    md_bg_color: "#69e4ff"
+                MDRaisedButton:
+                    text: "Reserver"
+                    font_size:"22"
+                    pos_hint: {'center_x': .8, 'center_y': .15}
+                    on_release: 
+                        app.reserver_btn()    
+                MDRaisedButton:
+                    text: "Annuler"
+                    font_size:"22"
+                    pos_hint: {'center_x': .5, 'center_y': .15}
+                    on_release: app.annuler_res()
+
+            ###################################  FACTURE & CONFIRMER RESERVATION  ###############################""
+            MDScreen:
+                name: 'facture'
+                id: fct
+                FitImage:
+                    source:"3.png"
+                    opacity: 0.7
+                MDBoxLayout:
+                    orientation: "vertical"
+
+                    MDTopAppBar:
+                        elevation: 4
+                        shadow_offset: 0, -6
+                        shadow_softness: 4
+                        shadow_color: "#1A237E"
+                        pos_hint: {"top": .7}
+                        specific_text_color: "#FFFFFF"
+                        type: "bottom"
+                    Widget:
+                Image:
+                    source: "logo3.png"
+                    pos_hint: {'center_x': 0.07, 'center_y': 0.95}
+                MDLabel:
+                    text: "Facture"
+                    font_size:"40"
+                    pos_hint: {"center_x": .65, "center_y": .92}
+                MDLabel:
+                    id: name_cl
+                    font_size:"25"
+                    bold:True
+                    pos_hint: {'center_x': 0.6,'center_y': 0.75}
+                MDLabel:
+                    text:"Voiture reservée"
+                    font_size:"25"
+                    bold:True
+                    pos_hint: {'center_x': 0.6,'center_y': 0.67}
+                MDLabel:
+                    id:ft_marq
+                    font_size:"23"
+                    pos_hint: {'center_x': 0.6,'center_y': 0.62}
+                MDLabel:
+                    id:ft_mod
+                    font_size:"23"
+                    pos_hint: {'center_x': 0.6,'center_y': 0.57}
+                MDLabel:
+                    id:ft_px
+                    font_size:"23"
+                    pos_hint: {'center_x': 0.6,'center_y': 0.52}
+                MDLabel:
+                    id:ft_date_debut
+                    font_size:"23"
+                    pos_hint: {'center_x': 0.6,'center_y': 0.43}
+                MDLabel:
+                    id:ft_duree
+                    font_size:"23"
+                    pos_hint: {'center_x': 0.6,'center_y': 0.38}
+                MDLabel:
+                    id: ft_montant
+                    font_size:"25"
+                    bold:True
+                    pos_hint: {'center_x': 0.6,'center_y': 0.32}
+                MDLabel:
+                    id:ft_date_fin
+                    font_size:"22"
+                    pos_hint: {'center_x': 0.6,'center_y': 0.25}
+                MDRaisedButton:
+                    text: "Annuler"
+                    font_size:"22"
+                    pos_hint: {'center_x': .71, 'center_y': .05}
+                    on_release:
+                        app.annuler_res()
+                MDRaisedButton:
+                    text: "Confirmer"
+                    font_size:"22"
+                    pos_hint: {'center_x': .9, 'center_y': .05}
+                    on_release:
+                        app.widget_save(fct)                   
+                         
+                
+##############################################################################
+          
