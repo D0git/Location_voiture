@@ -98,12 +98,12 @@ class Voiture():
         
     # Rechercher par prix de location par jours :
     def Rechercher_max_prix_loc_jrs():
-        cursor.execute("select * from Voiture where prix_loc_j<=1500 and disponibilite=TRUE")
+        cursor.execute("select * from Voiture where prix_loc_j<=5000 and disponibilite=TRUE")
         result=cursor.fetchall()
         return result
     
     def Rechercher_min_prix_loc_jrs():
-        cursor.execute("select * from Voiture where prix_loc_j>1500 and disponibilite=TRUE")
+        cursor.execute("select * from Voiture where prix_loc_j>5000 and disponibilite=TRUE")
         result=cursor.fetchall()
         return result
 
@@ -173,113 +173,3 @@ class Voiture():
             return False
         else:
             return True
-"""        
-#---------------------MAIN----------------------------------------------
-v=Voiture()
-print("")
-print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
-print("")
-y=v.Afficher_v_dispo()
-print(y)
-print("")
-
-
-print("---Recherche_par_marque-----------------------------------------------------------------------------------------")
-print("")
-marque=input("Maque :")
-mrq=v.Rechercher_par_marque(marque)
-print(mrq)
-print("")
-print("---Rechercher_par_tcarb-----------------------------------------------------------------------------------------")
-print("")
-type_car=input("Type carburant :")
-tc=v.Rechercher_par_tcarb(type_car)
-print(tc)
-print("")
-print("---Rechercher_par_trans-----------------------------------------------------------------------------------------")
-print("")
-transmission=input("Transmission :")
-tr=v.Rechercher_par_trans(transmission)
-print(tr)
-print("")
-print("---Rechercher_par_nbr_plc-----------------------------------------------------------------------------------------")
-print("")
-nbr_plc=int(input("Nombre de places :"))
-nbr=v.Rechercher_par_nbr_plc(nbr_plc)
-print(nbr)
-print("")
-
-print("---Rechercher_par_prix_loc_jrs-----------------------------------------------------------------------------------------")
-print("")
-#prix_loc_j=float(input("Prix de location par jour :"))
-prix=v.Rechercher_par_prix_loc_jrs(p_min=1600,p_max=2000)
-print(prix)
-
-
-
-print("")
-print("---Ajouter voiture-----------------------------------------------")
-print("")
-print("---Saisie des info :--------------------------------------------")
-print("")
-matricule=input("matricule: ")
-image=input("image: ")
-nbr_plc=int(input("nbr_plc: "))
-prix_loc_j=float(input("prix_loc_j: "))
-transmission=input("transmission: ")
-modele=input("modele: ")
-marque=input("marque: ")
-type_car=input("type_car: ")
-disponibilite=False
-code_ag=int(input("Code agence :"))
-
-ajout=v.Ajouter(matricule,image,nbr_plc,prix_loc_j,transmission,modele,marque,type_car,code_ag)
-print(ajout)
-
-print("")
-print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
-print("")
-y=v.Afficher_v_dispo()
-print(y)
-"""
-"""print("")
-print("---Modifier voiture---------------------------------------------------------------------------------------------")
-print("---MODIFICATION IMAGE :-----------")
-print("")
-image=input("image :")
-matricule=input("matricule :")
-modif_i=v.Modifier_image(image,matricule)
-print(modif_i)
-
-print("---MODIFICATION PRIX :-----------")
-print("")
-prix=float(input("prix_loc_j :"))
-matricule=input("matricule :")
-modif_p=v.Modifier_Prix(prix,matricule)
-print(modif_p)
-
-print("---MODIFICATION DISPONIBILITE :-----------")
-print("")
-
-dispo=input("disponibilite :")
-matricule=input("matricule :")
-modif_d=v.Modifier_Dispo(dispo,matricule)
-print(modif_d)
-
-print("")
-print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
-print("")
-y=v.Afficher_v_dispo()
-print(y)
-print("")
-print("---Suppression :-----------------------------------------------------------------")
-matricule=input("matricule:")
-supp=v.Supprimer(matricule)
-print(supp)
-print("")
-print("---Affichage des voiture disponibles-----------------------------------------------------------------------------")
-print("")
-y=v.Afficher_v_dispo()
-print(y)
-print("")
-"""
