@@ -211,7 +211,7 @@ MDScreen:
                     type: "bottom"
                 MDCard:
                     size_hint: .97, .4
-                    pos_hint: {"center_x": .5, "center_y": .3}
+                    pos_hint: {"center_x": .5, "center_y": .37}
                     md_bg_color:"#121212"
                     
                     MDBoxLayout:
@@ -275,13 +275,18 @@ MDScreen:
                         Spacer:
                         Spacer:
                         Spacer:
-                        MDFillRoundFlatButton:
-                            text: "Sign UP"
-                            pos_hint:{"center_x":.92}
-                            md_bg_color:"#3D5AFE"
-                            font_size: "18sp"
-                            on_press:app.sign_up()
-                                
+                MDFillRoundFlatButton:
+                    text: "Sign UP"
+                    pos_hint:{"center_x":.92,"center_y":.13}
+                    md_bg_color:"#3D5AFE"
+                    font_size: "18sp"
+                    on_press:app.sign_up()
+                MDFillRoundFlatButton:
+                    text: "Cancel"
+                    pos_hint:{"center_x":.76,"center_y":.13}
+                    md_bg_color:"#3D5AFE"
+                    font_size: "18sp"
+                    on_press:app.cancel_signup()                
                         
                 MDTopAppBar:
                     
@@ -1007,7 +1012,7 @@ MDScreen:
                             
                              
                             MDLabel:
-                                text:"Chez << VIPCars >> nous mettons à votre disposition notre expérience pour vous offrir une qualité de service exceptionnelle afin que vos déplacements se passent sereinement et en toute sécurité. AIRCAR a plus de 20 ans d'expérience, avec un parc des plus importants du pays avec 14 agences dans les principales villes du royaume ainsi que dans les aéroports (Casablanca – Rabat – Fès – Marrakech – Tanger – Nador – Oujda – Essaouira – Agadir – Ouarzazate)."                           
+                                text:"Chez << VIPCars >> nous mettons à votre disposition notre expérience pour vous offrir une qualité de service exceptionnelle afin que vos déplacements se passent sereinement et en toute sécurité. VIPCars a plus de 20 ans d'expérience, avec un parc des plus importants du pays avec 5 agences dans les principales villes du royaume ainsi que dans les aéroports (Casablanca – Rabat – Marrakech – Tanger – Agadir)."                           
                                 font_size: "24"
                                 family_name:"Arial"
                                 
@@ -1016,13 +1021,13 @@ MDScreen:
                             Spacer:
                             Spacer:
                             MDLabel:
-                                text:"Pourquoi choisir AIRCAR?"                           
+                                text:"Pourquoi choisir VIPCars?"                           
                                 font_size: "43"
                                 adaptive_height:True
                                 color:"#69e4ff"
                                 bold:True
                             MDLabel:
-                                text:">> Réservation en ligne 24H/24 7J/7\n>> + de 14 agences à votre service\n>> Des véhicules de lux adaptés à vos besoins\n>> Transparence et garantie des meilleurs prix"                           
+                                text:">> Réservation en ligne 24H/24 7J/7\n>> 5 agences à votre service\n>> Des véhicules de lux adaptés à vos besoins\n>> Transparence et garantie des meilleurs prix"                           
                                 font_size: "23"
                                 
                             
@@ -1140,7 +1145,7 @@ MDScreen:
                     text: "Annuler"
                     font_size:"22"
                     pos_hint: {'center_x': .5, 'center_y': .15}
-                    on_release: app.annuler_res()
+                    on_release: app.annuler_res2()
 
             ###################################  FACTURE & CONFIRMER RESERVATION  ###############################""
             MDScreen:
