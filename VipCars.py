@@ -29,6 +29,13 @@ from agence import Agence
 from Reservation import Reservation
 from client import Client
 import re
+import base64
+from email.mime.text import MIMEText
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from requests import HTTPError
+
+
 
 class CardItem(MDBoxLayout):
     def __init__(self, *args, **kwargs):
@@ -74,26 +81,19 @@ class AdmineClient(BoxLayout):
 class ClickableTextFieldRound(MDRelativeLayout):
     text = StringProperty()
     hint_text = StringProperty()
-    # Here specify the required parameters for MDTextFieldRound:
-    # [...]
 
 class ClickableTextFieldRound2(MDRelativeLayout):
     text = StringProperty()
     hint_text = StringProperty()
-    # Here specify the required parameters for MDTextFieldRound:
-    # [...]
+
 
 
 class VipCars(MDApp):
-    #fltr=None
-    #to_facture=0
+    
     dialog = None
     test=None
     add_modif=None
-    dialogue = Dialogue()
-    
-    #dialogue2= DialogueDelete()
-    #dialogue1 = AdmineClient()
+    id_client=None
     admine=None
     detete=None
     exist=None
@@ -101,9 +101,10 @@ class VipCars(MDApp):
     do=None
     selected_car=None
     resevation=None
+    mtrcl_test=None
+    
     def build(self):
         self.theme_cls.theme_style = "Dark"
-        #self.change_theme(fltr=0)
         self.root = Builder.load_file('app.kv')
         self.select_carburant=vt.Afficher_v_carburant()
         self.select_marque=vt.Afficher_v_marque()
@@ -160,13 +161,13 @@ class VipCars(MDApp):
         menu_items5 = [
             {
                 "viewclass": "OneLineListItem",
-                "text": "max = 1500",
+                "text": "max = 5000",
                 "height": dp(56),
                 "on_release": lambda x="max": self.menu_callback(x),
              } ,
             {
                 "viewclass": "OneLineListItem",
-                "text": "min > 1500",
+                "text": "min > 5000",
                 "height": dp(56),
                 "on_release": lambda x="min": self.menu_callback(x),
              }
@@ -176,7 +177,7 @@ class VipCars(MDApp):
             width_mult=3,
         )
         
-
+############################################ RECHERCHER VOITURE ##########################################
     def callback(self, button):
         self.menu.caller = button
         self.menu.open()
@@ -193,18 +194,6 @@ class VipCars(MDApp):
     def callback5(self, button):
         self.menu5.caller = button
         self.menu5.open()
-    
-    
-    
-    
-    
-    def change_theme(self,fltr):
-        if  fltr==0:
-            self.theme_cls.theme_style = "Dark"
-        else:
-            self.theme_cls.theme_style = "Light"
-    
-    
     
     def menu_callback(self, text_item):
         self.menu.dismiss()
@@ -299,7 +288,7 @@ class VipCars(MDApp):
             )
             
             )
-        
+##########################################################################################################        
 
 
     def navigation_draw(self):
@@ -449,147 +438,17 @@ class VipCars(MDApp):
             self.root.ids.manager.current = 'menu'
         elif self.scrn=="filtre":
             self.root.ids.manager.current = 'cars'
+    
     def go_to_res(self):
         self.root.ids.img_res.source=self.selected_car[1]
         self.root.ids.res_mod_marq.text=self.selected_car[6]+"\n"+self.selected_car[5]
         self.root.ids.manager.current = 'reservation'
     
     
-    def show_confirmation_dialog(self):
-        
-        if not self.dialog:
-            self.dialog = MDDialog(
-                title="Matricule:",
-                type="custom",
-                content_cls=Dialogue(),
-                
-            )
-        self.dialog.open() 
-
-    def show_confirmation_delete(self):
-        
-        if not self.detete:
-            self.detete = MDDialog(
-                title="Delete Car:",
-                type="custom",
-                content_cls=DialogueDelete(),
-                buttons=[
-                    MDFlatButton(
-                        text="CANCEL",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=self.close_dialogDelete,
-                            
-                    ),
-                    MDFlatButton(
-                        text="Confirm",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release= self.delete_car,
-                    ),
-                ],
-            )
-        self.detete.open()
-    def show_err_existe(self):
-        
-        if not self.exist:
-            self.exist = MDDialog(
-                title="ERROR:",
-                type="custom",
-                content_cls=DialogueERRExist(),
-                buttons=[
-                    MDFlatButton(
-                        text="OK",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=self.close_dialogExist,
-                            
-                    ),
-                    
-                ],
-            )
-        self.exist.open()
-    def show_err_not_existe(self):
-        
-        if not self.not_exist:
-            self.not_exist = MDDialog(
-                title="ERROR:",
-                type="custom",
-                content_cls=DialogueERRnotExist(),
-                buttons=[
-                    MDFlatButton(
-                        text="OK",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=self.close_dialogNotExist,
-                            
-                    )
-                ],
-            )
-        self.not_exist.open()
-    def close_dialogExist(self,obj):
-        self.exist.dismiss()
-    def close_dialogNotExist(self,obj):
-        self.not_exist.dismiss()
-    def show_admine_client(self):
-        
-        if not self.admine:
-            self.admine = MDDialog(
-                title="Welcome ",
-                type="custom",
-                content_cls=AdmineClient(),
-                buttons=[
-                    MDFlatButton(
-                        text="Admine",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release=self.go_to_Admin,
-                            
-                    ),
-                    MDFlatButton(
-                        text="Client",
-                        theme_text_color="Custom",
-                        text_color=self.theme_cls.primary_color,
-                        on_release= self.go_to_Client,
-                    ),
-                ],
-            )
-        self.admine.open()
-    def go_to_Admin(self,obj):
-        self.admine.dismiss()
-        self.root.ids.manager.current='admin'
-    def go_to_Client(self,obj):
-        self.admine.dismiss()
-        self.root.ids.manager.current='menu'
-    mtrcl_test=None
-    def go_to_sreen(self):
-        self.dialog.dismiss()
-        print(self.mtrcl_test)
-        on_matricule=vt.Test_matricule(self.mtrcl_test)
-        
-        if self.test==1:
-            if on_matricule==False:
-                self.root.ids.manager.current='add'
-            else: self.show_err_existe() 
-        elif self.test==2:
-            if on_matricule==True:
-                self.root.ids.manager.current='modify'
-            else:self.show_err_not_existe() 
-        elif self.test==3:
-            if on_matricule==True:
-                self.show_confirmation_delete()
-            else: self.show_err_not_existe() 
     
-    def delete_car(self,obj):
-        vt.Supprimer(self.mtrcl_test)
-        self.detete.dismiss()
 
-    def close_dialog(self,obj):
-        self.dialog.dismiss()
-    def close_dialogDelete(self,obj):
-        self.detete.dismiss()
-    ############################################################################
-    id_client=None
+######################################## LOGIN & SIGN UP ####################################################        
+    
     def log_in(self):
         login=self.root.ids.login_user.text
         password=self.root.ids.passwrd.ids.text_field.text
@@ -616,10 +475,7 @@ class VipCars(MDApp):
                 self.root.ids.manager.current = "menu"
             elif Client.Connexion(login,password)==-1:
                 self.root.ids.login_user.error=True
-                self.root.ids.passwrd.ids.text_field.error=True
-
-        
-        
+                self.root.ids.passwrd.ids.text_field.error=True    
     def log_in_to_sign(self):
         self.root.ids.login_user.text = ""
         self.root.ids.passwrd.ids.text_field.text = ""
@@ -668,15 +524,55 @@ class VipCars(MDApp):
                 self.root.ids.first_pswrd.error=True
                 self.root.ids.confirm_pswrd.error=True
 
-        
-        
+    def cancel_signup(self):
+        self.root.ids.manager.current='login'
+        self.root.ids.fn.text = ""
+        self.root.ids.ln.text = ""
+        self.root.ids.phone.text = ""
+        self.root.ids.email.text = ""
+        self.root.ids.log.text = ""
+        self.root.ids.first_pswrd.ids.text_field.text = ""
+        self.root.ids.confirm_pswrd.ids.text_field.text = ""            
+#############################################################################################################        
+    def send_email(self,subject, body, recipients):
+        SCOPES = [
+        "https://www.googleapis.com/auth/gmail.send"
+        ]
+        flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+        creds = flow.run_local_server(port=0)
+
+        service = build('gmail', 'v1', credentials=creds)
+        message = MIMEText(body)
+        message['to'] = recipients
+        message['subject'] = subject
+        create_message = {'raw': base64.urlsafe_b64encode(message.as_bytes()).decode()}
+
+        try:
+            message = (service.users().messages().send(userId="me", body=create_message).execute())
+            print(F'sent message to {message} Message Id: {message["id"]}')
+        except HTTPError as error:
+            print(F'An error occurred: {error}')
+            message = None    
         
         
         
     
-    
+    def annuler_res2(self):
+        self.root.ids.manager.current="menu"
     
     def contacter(self):
+        nom=Client.get_Nom(self.id_client)
+        prenom=Client.get_Prenom(self.id_client)
+        subject = "M. "+prenom+" "+nom+" :Email From VipCars Client"
+        body = self.root.ids.contactez_nous.text
+       
+        recipients = "fatimazahra.zaha1504@gmail.com"
+        
+
+        self.send_email(subject, body, recipients)
+        
+        
+        
         self.root.ids.contactez_nous.text = "" 
         self.root.ids.manager.current = "menu" 
     
@@ -773,7 +669,7 @@ class VipCars(MDApp):
         self.root.ids.manager.current="menu"
         #self.change_theme(fltr=0)
         
-        
+################################## ADMINE ##############################################################################        
     def add_car(self):
         
         test=0
@@ -862,7 +758,6 @@ class VipCars(MDApp):
                 self.root.ids.add_agence.text=''
                 self.root.ids.manager.current = "admin"
             else: self.root.ids.add_agence.error=True
-        
                     
     def modif_car(self):
         
@@ -898,8 +793,146 @@ class VipCars(MDApp):
         else: test=1
 
         if test==1:
+            self.root.ids.img_modif.text=""
+            self.root.ids.modif_prix.text=""
+            self.root.ids.modif_dispo.text=""
             self.root.ids.manager.current = "admin"
                   
+    def delete_car(self,obj):
+        vt.Supprimer(self.mtrcl_test)
+        self.detete.dismiss()
+
+    def show_confirmation_dialog(self):
+        
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Matricule:",
+                type="custom",
+                content_cls=Dialogue(),
+                
+            )
+        self.dialog.open() 
+
+    def show_confirmation_delete(self):
+        
+        if not self.detete:
+            self.detete = MDDialog(
+                title="Delete Car:",
+                type="custom",
+                content_cls=DialogueDelete(),
+                buttons=[
+                    MDFlatButton(
+                        text="CANCEL",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.close_dialogDelete,
+                            
+                    ),
+                    MDFlatButton(
+                        text="Confirm",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release= self.delete_car,
+                    ),
+                ],
+            )
+        self.detete.open()
+    def show_err_existe(self):
+        
+        if not self.exist:
+            self.exist = MDDialog(
+                title="ERROR:",
+                type="custom",
+                content_cls=DialogueERRExist(),
+                buttons=[
+                    MDFlatButton(
+                        text="OK",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.close_dialogExist,
+                            
+                    ),
+                    
+                ],
+            )
+        self.exist.open()
+    def show_err_not_existe(self):
+        
+        if not self.not_exist:
+            self.not_exist = MDDialog(
+                title="ERROR:",
+                type="custom",
+                content_cls=DialogueERRnotExist(),
+                buttons=[
+                    MDFlatButton(
+                        text="OK",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.close_dialogNotExist,
+                            
+                    )
+                ],
+            )
+        self.not_exist.open()
+    def close_dialogExist(self,obj):
+        self.exist.dismiss()
+    def close_dialogNotExist(self,obj):
+        self.not_exist.dismiss()
+    def show_admine_client(self):
+        
+        if not self.admine:
+            self.admine = MDDialog(
+                title="Welcome ",
+                type="custom",
+                content_cls=AdmineClient(),
+                buttons=[
+                    MDFlatButton(
+                        text="Admin",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=self.go_to_Admin,
+                            
+                    ),
+                    MDFlatButton(
+                        text="Client",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release= self.go_to_Client,
+                    ),
+                ],
+            )
+        self.admine.open()
+    def go_to_Admin(self,obj):
+        self.admine.dismiss()
+        self.root.ids.manager.current='admin'
+    def go_to_Client(self,obj):
+        self.admine.dismiss()
+        self.root.ids.manager.current='menu'
+    
+    def go_to_sreen(self):
+        self.dialog.dismiss()
+        print(self.mtrcl_test)
+        on_matricule=vt.Test_matricule(self.mtrcl_test)
+        
+        if self.test==1:
+            if on_matricule==False:
+                self.root.ids.manager.current='add'
+            else: self.show_err_existe() 
+        elif self.test==2:
+            if on_matricule==True:
+                self.root.ids.manager.current='modify'
+            else:self.show_err_not_existe() 
+        elif self.test==3:
+            if on_matricule==True:
+                self.show_confirmation_delete()
+            else: self.show_err_not_existe() 
+    
+    
+    def close_dialog(self,obj):
+        self.dialog.dismiss()
+    def close_dialogDelete(self,obj):
+        self.detete.dismiss()
+    ############################################################################
             
             
             
