@@ -25,7 +25,15 @@ class Agence:
         cursor.execute("select * from Agence")
         result=cursor.fetchall()
         return result
+    def Affichage_villes():
+        cursor.execute("select ville from Agence")
+        result=cursor.fetchall()
+        return result
+    def select_ville(code_ag):
+        cursor.execute("select ville from Agence where code_ag=?",(code_ag,))
+        
+        result=cursor.fetchone()
+        return result[0]
 
     
-
 
