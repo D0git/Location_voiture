@@ -95,8 +95,18 @@ class Voiture():
         cursor.execute(sql,val)
         result=cursor.fetchall()
         return result     
-        
+    def Rechercher_par_ville(ville):
+        sql="select code_ag from Agence where ville=?"
+        val=(ville,)
+        cursor.execute(sql,val)
+        result=cursor.fetchone()
+        sql="select * from Voiture where code_ag=? and disponibilite=TRUE"
+        val=(result[0],)
+        cursor.execute(sql,val)
+        result=cursor.fetchall()
+        return result      
     # Rechercher par prix de location par jours :
+    
     def Rechercher_max_prix_loc_jrs():
         cursor.execute("select * from Voiture where prix_loc_j<=5000 and disponibilite=TRUE")
         result=cursor.fetchall()
