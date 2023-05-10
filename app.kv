@@ -866,7 +866,35 @@ MDScreen:
                                     text: "Nombre de place"
                                     theme_text_color: "Hint"
                                     adaptive_height: True 
-                                                          
+                        InfoCar:
+                            size_hint_y: None
+                            height: "86dp"
+                            padding: "4dp"
+                            radius: 12
+
+                            FitImage:
+                                id:car_select7
+                                radius: 12
+                                size_hint_x: None
+                                width: "86dp"
+
+                            MDBoxLayout:
+                                orientation: "vertical"
+                                adaptive_height: True
+                                spacing: "6dp"
+                                padding: "12dp", 0, 0, 0
+                                pos_hint: {"center_y": .5}
+
+                                MDLabel:
+                                    id:city
+                                    font_style: "H5"
+                                    bold: True
+                                    adaptive_height: True
+
+                                MDLabel:
+                                    text: "Ville"
+                                    theme_text_color: "Hint"
+                                    adaptive_height: True                                   
                 MDIconButton:
                     icon: 'arrow-left-circle'           
                     on_press:app.go_back()
@@ -943,14 +971,21 @@ MDScreen:
                         app.fltr=4 
                         app.callback4(self)
                 MDRaisedButton:
-                    id: Ville
+                    id: prix
                     font_size:16
                     text: "Prix"
                     pos_hint: {"center_x": .75, "center_y": .965}
                     on_release:
                         app.fltr=5 
                         app.callback5(self) 
-                
+                MDRaisedButton:
+                    id: ville
+                    font_size:16
+                    text: "Ville"
+                    pos_hint: {"center_x": .875, "center_y": .965}
+                    on_release:
+                        app.fltr=6 
+                        app.callback6(self)
             ####################################  AGENCE  ####################""
             MDScreen:
                 name: 'agences'
@@ -1212,6 +1247,10 @@ MDScreen:
                     id:ft_date_fin
                     font_size:"22"
                     pos_hint: {'center_x': 0.6,'center_y': 0.25}
+                MDLabel:
+                    id:ft_adresse
+                    font_size:"23"
+                    pos_hint: {'center_x': 0.6,'center_y': 0.16}
                 MDRaisedButton:
                     text: "Annuler"
                     font_size:"22"
