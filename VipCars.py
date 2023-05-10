@@ -110,6 +110,7 @@ class VipCars(MDApp):
         self.select_marque=vt.Afficher_v_marque()
         self.select_transmission=vt.Afficher_v_transmission()
         self.select_place=vt.Afficher_v_place()
+        self.select_ville=Agence.Affichage_villes()
         menu_items = [
             {
                 "viewclass": "OneLineListItem",
@@ -176,7 +177,18 @@ class VipCars(MDApp):
             items=menu_items5,
             width_mult=3,
         )
-        
+        menu_items6 = [
+            {
+                "viewclass": "OneLineListItem",
+                "text": i[0],
+                "height": dp(56),
+                "on_release": lambda x="5 "+i[0]: self.menu_callback(x),
+             } for i in self.select_ville
+        ]
+        self.menu6 = MDDropdownMenu(
+            items=menu_items6,
+            width_mult=4,
+        )
 ############################################ RECHERCHER VOITURE ##########################################
     def callback(self, button):
         self.menu.caller = button
@@ -194,13 +206,16 @@ class VipCars(MDApp):
     def callback5(self, button):
         self.menu5.caller = button
         self.menu5.open()
-    
+    def callback6(self, button):
+        self.menu6.caller = button
+        self.menu6.open()
     def menu_callback(self, text_item):
         self.menu.dismiss()
         self.menu2.dismiss()
         self.menu3.dismiss()
         self.menu4.dismiss()
         self.menu5.dismiss()
+        self.menu6.dismiss()
         index=text_item.split()
         if index[0]=="1":
             self.v_recherchee=vt.Rechercher_par_marque(index[1])
@@ -210,6 +225,8 @@ class VipCars(MDApp):
             self.v_recherchee=vt.Rechercher_par_trans(index[1])
         if index[0]=="4":
             self.v_recherchee=vt.Rechercher_par_nbr_plc(index[1])
+        if index[0]=="5":
+            self.v_recherchee=vt.Rechercher_par_ville(index[1])
         if index[0]=="min":
             self.v_recherchee=vt.Rechercher_min_prix_loc_jrs()
         if index[0]=="max":
@@ -424,13 +441,15 @@ class VipCars(MDApp):
         self.root.ids.car_select4.source=self.selected_car[1]
         self.root.ids.car_select5.source=self.selected_car[1]
         self.root.ids.car_select6.source=self.selected_car[1]
+        self.root.ids.car_select7.source=self.selected_car[1]
         self.root.ids.maq.text=self.selected_car[6]
         self.root.ids.mod.text=self.selected_car[5]
         self.root.ids.px.text=str(self.selected_car[3])+" dhs"
         self.root.ids.carb.text=self.selected_car[7]
         self.root.ids.trans.text=self.selected_car[4]
         self.root.ids.place.text=str(self.selected_car[2])
-        
+        ville=Agence.select_ville(self.selected_car[9])
+        self.root.ids.city.text=ville
         self.scrn=y
         self.root.ids.manager.current = 'info_car'
     def go_back(self):
@@ -623,6 +642,7 @@ class VipCars(MDApp):
             self.root.ids.ft_duree.text="Duree:  "+str(self.resevation[3])+" jours"
             self.root.ids.ft_montant.text="Montant à payer:  "+str(self.resevation[1])+" dhs"
             self.root.ids.ft_date_fin.text="Veuillez déposer la voiture le  "+t_fin
+            self.root.ids.ft_adresse.text="Adresse:  "+self.resevation[-2]
             self.root.ids.date_debut.text=""
             self.root.ids.date_fin.text=""
             self.root.ids.duree.text=""
